@@ -26,7 +26,11 @@ class TestKauppa(unittest.TestCase):
             if tuote_id == 1:
                 return Tuote(1, "maito", 5)
             else:
-                return Tuote(1, "leipä", 3)
+                return Tuote(2, "leipä", 3)
+
+        # tehdään toteutus palauta_varastoon-metodille
+        def varasto_poista_korista(tuote_id):
+            
 
         # otetaan toteutukset käyttöön
         varasto_mock.saldo.side_effect = varasto_saldo
@@ -53,7 +57,6 @@ class TestKauppa(unittest.TestCase):
 
         # varmistetaan, että metodia tilisiirto on kutsuttu
         self.pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, ANY)
-        # toistaiseksi ei välitetä kutsuun liittyvistä argumenteista
 
     
     def test_ostoksen_paaytyttya_pankin_metodia_tilisiirto_kutsutaan_oikealla_asiakkaalla_tilinumerolla_ja_summalla_kahdella_eri_ostoksella(self):
@@ -65,7 +68,6 @@ class TestKauppa(unittest.TestCase):
 
         # varmistetaan, että metodia tilisiirto on kutsuttu
         self.pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 8)
-        # toistaiseksi ei välitetä kutsuun liittyvistä argumenteista
 
     def test_ostoksen_paaytyttya_pankin_metodia_tilisiirto_kutsutaan_oikealla_asiakkaalla_tilinumerolla_ja_summalla_kahdella_samalla_ostoksella(self):
         # tehdään ostokset
@@ -76,7 +78,6 @@ class TestKauppa(unittest.TestCase):
 
         # varmistetaan, että metodia tilisiirto on kutsuttu
         self.pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 10)
-        # toistaiseksi ei välitetä kutsuun liittyvistä argumenteista
 
     def test_ostoksen_paaytyttya_pankin_metodia_tilisiirto_kutsutaan_oikealla_asiakkaalla_tilinumerolla_ja_summalla_eri_samalla_ostoksella_joista_toinen_on_loppu(self):
         # tehdään ostokset
@@ -87,5 +88,40 @@ class TestKauppa(unittest.TestCase):
 
         # varmistetaan, että metodia tilisiirto on kutsuttu
         self.pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 5)
-        # toistaiseksi ei välitetä kutsuun liittyvistä argumenteista
+       
+
     
+    def test_ostoksen_alkaessa_edellisen_ostoksen_tiedot_nollattu(self):
+        #tehdään ensin yhdet ostokset
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+        #sitten tehdään toiset ostokset
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        # varmistetaan, että metodia tilisiirto on kutsuttu
+        self.pankki_mock.tilisiirto.assert_called_with("pekka", ANY, "12345", ANY, 5)
+
+    def test_pyydetaan_uusi_viite_jokaiseen_maksuun(self):
+        #tehdään ensin yhdet ostokset
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 1)
+
+        #sitten tehdään toiset ostokset
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 2)
+
+    def test_ostosta_poistaessa_metodia_poista_korista_kutsutaan(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.poista_korista()
+
+        self.
