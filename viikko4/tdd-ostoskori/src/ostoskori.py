@@ -9,8 +9,12 @@ class Ostoskori:
     def tavaroita_korissa(self):
         if len(self.ostoskorin_ostokset) == 0:
             return 0
+        
         else:
-            return len(self.ostoskorin_ostokset)
+            tavara_lukumaara = 0
+            for ostoskorin_ostos in self.ostoskorin_ostokset:
+                tavara_lukumaara += ostoskorin_ostos._lukumaara
+            return tavara_lukumaara
         # kertoo korissa olevien tavaroiden lukumäärän
         # eli jos koriin lisätty 2 kpl tuotetta "maito", tulee metodin palauttaa 2 
         # samoin jos korissa on 1 kpl tuotetta "maito" ja 1 kpl tuotetta "juusto", tulee metodin palauttaa 2 
@@ -25,7 +29,18 @@ class Ostoskori:
 
     def lisaa_tuote(self, lisattava: Tuote):
         ostos = Ostos(lisattava)
+
+        if len(self.ostoskorin_ostokset) == 0:
+            self.ostoskorin_ostokset.append(ostos)
+            return
+            
+        for ostoskorin_ostos in self.ostoskorin_ostokset:
+            if ostos.tuotteen_nimi() == ostoskorin_ostos.tuotteen_nimi():
+                ostoskorin_ostos.muuta_lukumaaraa(1)
+                return
+        
         self.ostoskorin_ostokset.append(ostos)
+        return
 
     def poista_tuote(self, poistettava: Tuote):
         # poistaa tuotteen
