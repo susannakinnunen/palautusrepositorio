@@ -120,3 +120,16 @@ class TestOstoskori(unittest.TestCase):
         self.kori.poista_tuote(maito)
 
         self.assertEqual(f"tavaroita korissa: {self.kori.tavaroita_korissa()}, hinta: {self.kori.hinta()}", "tavaroita korissa: 0, hinta: 0")
+
+    def test_koriin_on_lisatty_tuotteita_ja_kori_tyhjennetaan_jolloin_korissa_ei_ole_tuotteita(self):
+        maito = Tuote("Maito", 3)
+        leipa = Tuote("Leipä",2)
+        
+        self.kori.lisaa_tuote(maito)
+        self.kori.lisaa_tuote(leipa)
+
+        self.kori.tyhjenna()
+
+        self.assertEqual(f"tavaroita korissa: {self.kori.tavaroita_korissa()}, hinta: {self.kori.hinta()}", "tavaroita korissa: 0, hinta: 0")
+
+        
