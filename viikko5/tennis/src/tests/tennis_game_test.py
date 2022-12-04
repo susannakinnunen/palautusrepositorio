@@ -1,4 +1,5 @@
 import unittest
+from player import Player
 
 from tennis_game import TennisGame
 
@@ -55,10 +56,31 @@ def play_game(p1_points, p2_points):
 
 
 class TestTennis(unittest.TestCase):
+    def setUp(self):
+        self.player_number_1 = Player(1)
+        self.player_number_2 = Player(2)
+
     def test_score(self):
         for test_case in test_cases:
             (p1_points, p2_points, score) = test_case
             game = play_game(p1_points, p2_points)
             self.assertEqual(score, game.get_score())
+
+    def test_get_player_number(self):
+        self.assertEqual(str(self.player_number_1), "Player 1")
+        self.assertEqual(str(self.player_number_2), "Player 2")
+
+    def test_get_player_score_in_the_beginning(self):
+        self.assertEqual(self.player_number_1.get_player_score(), 0)
+        self.assertEqual(self.player_number_2.get_player_score(), 0)
+
+    def test_get_player_score_in_the_beginning(self):
+        self.player_number_1.won_point()
+        self.player_number_1.won_point()
+        self.player_number_2.won_point()
+        
+        self.assertEqual(self.player_number_1.get_player_score(), 2)
+        self.assertEqual(self.player_number_2.get_player_score(), 1)
+
 
 
