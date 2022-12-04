@@ -22,8 +22,6 @@ class TennisGame:
                 score = "Fifteen-All"
             elif self.m_score1 == 2:
                 score = "Thirty-All"
-            elif self.m_score1 == 3:
-                score = "Forty-All"
             else:
                 score = "Deuce"
         elif self.m_score1 >= 4 or self.m_score2 >= 4:
