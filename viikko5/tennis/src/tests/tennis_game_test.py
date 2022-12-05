@@ -8,7 +8,6 @@ test_cases = [
     (1, 1, "Fifteen-All"),
     (2, 2, "Thirty-All"),
     (3, 3, "Deuce"),
-    #(4, 4, "Deuce"),
 
     (1, 0, "Fifteen-Love"),
     (0, 1, "Love-Fifteen"),
@@ -46,12 +45,12 @@ test_cases = [
 
 
 def play_game(p1_points, p2_points):
-    game = TennisGame("player1", "player2")
+    game = TennisGame()
     for i in range(max(p1_points, p2_points)):
         if i < p1_points:
-            game.won_point("player1")
+            game.won_point(1)
         if i < p2_points:
-            game.won_point("player2")
+            game.won_point(2)
     return game
 
 
@@ -60,21 +59,15 @@ class TestTennis(unittest.TestCase):
         self.player_number_1 = Player(1)
         self.player_number_2 = Player(2)
 
-    def test_score(self):
-        for test_case in test_cases:
-            (p1_points, p2_points, score) = test_case
-            game = play_game(p1_points, p2_points)
-            self.assertEqual(score, game.get_score())
-
     def test_get_player_number(self):
         self.assertEqual(str(self.player_number_1), "Player 1")
         self.assertEqual(str(self.player_number_2), "Player 2")
 
-    def test_get_player_score_in_the_beginning(self):
+    def test_get_player_points_in_the_beginning(self):
         self.assertEqual(self.player_number_1.get_player_score(), 0)
         self.assertEqual(self.player_number_2.get_player_score(), 0)
 
-    def test_get_player_score_in_the_beginning(self):
+    def test_get_player_points_in_the_beginning(self):
         self.player_number_1.won_point()
         self.player_number_1.won_point()
         self.player_number_2.won_point()
@@ -82,5 +75,38 @@ class TestTennis(unittest.TestCase):
         self.assertEqual(self.player_number_1.get_player_score(), 2)
         self.assertEqual(self.player_number_2.get_player_score(), 1)
 
+    def test_score_love_all(self):
+        test_case = [0, 0, "Love-All"]
+        game = play_game(test_case[0], test_case[1])
 
+        self.assertEqual(test_case[2],game.get_score())
 
+    def test_score_fifteen_all(self):
+        test_case = [1, 1, "Fifteen-All"]
+        game = play_game(test_case[0], test_case[1])
+
+        self.assertEqual(test_case[2],game.get_score())
+
+    def test_advantage_player_one(self):
+        test_case = [4, 3, "Advantage player1"]
+        game = play_game(test_case[0], test_case[1])
+
+        self.assertEqual(test_case[2],game.get_score())
+    
+    def test_fifteen_love(self):
+        test_case = [1, 0, "Fifteen-Love"]
+        game = play_game(test_case[0], test_case[1])
+
+        self.assertEqual(test_case[2],game.get_score())
+
+    def test_win_for_player2(self):
+        test_case = [0, 4, "Win for player2"]
+        game = play_game(test_case[0], test_case[1])
+
+        self.assertEqual(test_case[2],game.get_score())
+
+    def test_thirty_fifteen(self):
+        test_case = [2, 1, "Thirty-Fifteen"]
+        game = play_game(test_case[0], test_case[1])
+
+        self.assertEqual(test_case[2],game.get_score())

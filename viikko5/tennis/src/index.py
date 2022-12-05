@@ -1,24 +1,27 @@
 from tennis_game import TennisGame
+from player import Player
 
 
 def main():
-    game = TennisGame("player1", "player2")
+    player_1 = 1
+    player_2 = 2
+    game = TennisGame()
 
     print(game.get_score())
 
-    game.won_point("player1")
+    game.won_point(player_1)
     print(game.get_score())
 
-    game.won_point("player1")
+    game.won_point(player_1)
     print(game.get_score())
 
-    game.won_point("player2")
+    game.won_point(player_2)
     print(game.get_score())
 
-    game.won_point("player1")
+    game.won_point(player_1)
     print(game.get_score())
 
-    game.won_point("player1")
+    game.won_point(player_1)
     print(game.get_score())
 
 
