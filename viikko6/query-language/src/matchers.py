@@ -68,6 +68,17 @@ class Or:
         return False
 
 
+class QueryBuilder:
+    def __init__(self, matchers = All()):
+        self._matcher_olio = matchers
+
+
+    def build(self):
+        return self._matcher_olio
+
+    
+
+
 
 
     
