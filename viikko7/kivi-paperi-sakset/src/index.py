@@ -1,6 +1,8 @@
 from kps_pelaaja_vs_pelaaja import KPSPelaajaVsPelaaja
 from kps_tekoaly import KPSTekoaly
 from kps_parempi_tekoaly import KPSParempiTekoaly
+from kivipaperisakset import KiviPaperiSakset
+from luo_peli import LuoPeli
 
 
 def main():
@@ -11,8 +13,16 @@ def main():
               "\n (c) Parannettua tekoälyä vastaan"
               "\nMuilla valinnoilla lopetetaan"
               )
+        tyyppi = input()
+        
+        peli = LuoPeli.luo_peli(tyyppi)
+         
+        if not peli:
+            break
+        peli.pelaa()
 
-        vastaus = input()
+"""
+
 
         if vastaus.endswith("a"):
             print(
@@ -37,7 +47,7 @@ def main():
             haastava_yksinpeli.pelaa()
         else:
             break
-
+"""
 
 if __name__ == "__main__":
     main()

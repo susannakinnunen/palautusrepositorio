@@ -69,9 +69,17 @@ class Or:
 
 
 class QueryBuilder:
-    def __init__(self, matchers = All()):
+    def __init__(self, matchers= All()):
         self._matcher_olio = matchers
 
+    def playsIn(self, team):
+        return QueryBuilder(PlaysIn(team))
+
+    def hasAtLeast(self,value,attr):
+        return QueryBuilder(HasAtLeast(value,attr))
+
+    def hasFewerThan(self,value,attr):
+        return QueryBuilder(HasFewerThan(value,attr))
 
     def build(self):
         return self._matcher_olio
