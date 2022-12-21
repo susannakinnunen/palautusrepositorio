@@ -24,7 +24,7 @@ class KiviPaperiSakset:
         return input("Ensimmäisen pelaajan siirto: ")
 
     # tämän metodin toteutus vaihtelee eri pelityypeissä
-    def _toisen_siirto(self, ensimmaisen_siirto):
+    def _toisen_siirto(self):
         # metodin oletustoteutus
         return "k"
 
